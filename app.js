@@ -32,7 +32,8 @@ $("#add-train-btn").on("click", function(event) {
   // Grabs user input
   var trainName = $("#train-name-input").val().trim();
   var trainDestination = $("#destination-input").val().trim();
-  var firstTime = moment($("#start-input").val().trim(), "HH:MM").format("X");
+  var firstTime = moment($("#start-input").val().trim(), "HH:mm").format("X");
+  //var firstTime = $("start-input").val().trim(), "HH:MM".format()
   var tFrequency = $("#frequency-input").val().trim();
 
   // Creates local "ttrainorary" object for holding train data
@@ -80,10 +81,10 @@ database.ref().on("child_added", function(childSnapshot) {
   // First Time (pushed back 1 year to make sure it comes before current time)
 var firstTimeConverted = moment(firstTime, "HH:mm").subtract(1, "years");
 console.log(firstTimeConverted);
-
+console.log("Start time: " + firstTime);
 // Current Time
 var currentTime = moment();
-console.log("CURRENT TIME: " + moment(currentTime).format("hh:mm"));
+console.log("CURRENT TIME: " + moment(currentTime).format("HH:mm"));
 
 // Difference between the times
 var diffTime = moment().diff(moment(firstTimeConverted), "minutes");
@@ -99,7 +100,9 @@ console.log("MINUTES TILL TRAIN: " + tMinutesTillTrain);
 
 // Next Train
 var nextTrain = moment().add(tMinutesTillTrain, "minutes");
-console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm"));
+console.log("ARRIVAL TIME: " + moment(nextTrain).format("HH:mm"));
+
+var nextTrainConverted = moment(nextTrain).format("HH:mm");
 
 
   // Prettify the train start
@@ -116,11 +119,11 @@ console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm"));
 
   // Create the new row
   var newRow = $("<tr>").append(
-    $("<td>").text(trainName),
-    $("<td>").text(trainDestination),
-    $("<td>").text(tFrequency),
-    $("<td>").text(nextTrain),
-    $("<td>").text(tMinutesTillTrain),
+    $("<td class='trName'>").text(trainName),
+    $("<td class='trName'>").text(trainDestination),
+    $("<td class='trTime'>").text(tFrequency),
+    $("<td class='trTime'>").text(nextTrainConverted),
+    $("<td class='trEnd'>").text(tMinutesTillTrain),
   
   );
 
